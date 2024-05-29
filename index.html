@@ -1,73 +1,134 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="./style.css"  />
-
-  <title>Novo usuario - Sujeito Programador</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Processo Seletivo</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        
+        .container-geral {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .content, .confirmation-container {
+            flex: 1;
+        }
+        .footer {
+            background-color: #482CFF; 
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+        .footer img {
+            vertical-align: middle;
+            width: 20px; /* tamanho do ícone */
+            height: 20px;
+        }
+        .footer span {
+            display: block;
+            font-size: 12px; /* tamanho do texto */
+        }
+    </style>
 </head>
 <body>
+    <div class="container-geral">
+        <!-- Cabeçalho  -->
+        <div class="header">
+            <img src="images/logo.png" alt="Logo da Empresa" class="logo">
+        </div>
 
-  <div class="container">
-    <section class="header">
-      <h2>Nova conta</h2>
-    </section>
+        <!-- Conteúdo principal -->
+        <div class="content tela-inicial">
+            <h1 class="title">Processo Seletivo</h1>
+            <h2 class="subtitle">Inscrição para novos membros</h2>
+            <p class="instructions">Preencha seus dados logo abaixo</p>
+            <div class="form-container">
+                <select class="form-input" id="vaga" required>
+                    <option value="">Escolha a vaga de seu interesse</option>
+                    <option value="frontend">Desenvolvedor Front-end</option>
+                    <option value="backend">Desenvolvedor Back-end</option>
+                    <option value="marketing">Marketing</option>
+                    <option value="design">Design</option>
+                </select>
+                <input type="text" class="form-input" id="nome" placeholder="Digite seu nome completo" required>
+                <input type="email" class="form-input" id="email" placeholder="Digite seu endereço de e-mail" required>
+                <input type="text" class="form-input" id="curso" placeholder="Digite seu curso" required>
+                <input type="text" class="form-input" id="periodo" placeholder="Digite seu período" required>
+                <button class="form-button cadastrar" id="cadastrar">Cadastrar</button>
+            </div>
+        </div>
 
-    <form id="form" class="form">
-      <div class="form-content">
-        <label for="username">Nome do usuário</label>
-        <input
-          type="text"
-          id="username"
-          placeholder="Digite o nome do usuario..."
-        />
-        <a>Aqui vai a mensagem de erro....</a>
-      </div>
+        <!-- Tela de confirmação -->
+        <div class="confirmation-container tela-confirmacao" id="confirmation" style="display: none;">
+            <div class="content">
+                <h1 class="title">Processo Seletivo</h1>
+                <h2 class="subtitle">Inscrição para novos membros</h2>
+                <div class="confirmation-message">
+                    <h2 class="title">Tudo Pronto!</h2>
+                    <p>Você completou as etapas do processo, em breve entraremos em contato.</p>
+                    <img src="images/success.png" alt="Imagem de sucesso" class="success-image">
+                </div>
+            </div>
+        </div>
 
-      <div class="form-content">
-        <label for="email">Email</label>
-        <input
-          type="email"
-          id="email"
-          placeholder="Digite o seu email..."
-        />
-        <a>Aqui vai a mensagem de erro....</a>
-      </div>
+        <!-- Rodapé-->
+        <div class="footer">
+            <img src="images/map-icon.png" alt="Ícone de mapa" class="map-icon">
+            <span>Av. Prof. Antônio Campos - Pres. Costa e Silva, Mossoró - RN, 59610-210</span>
+        </div>
+    </div>
 
-      <div class="form-content">
-        <label for="password">Senha</label>
-        <input
-          type="password"
-          id="password"
-          placeholder="Digite sua senha..."
-        />
-        <a>Aqui vai a mensagem de erro....</a>
-      </div>
+    <!-- Popup de confirmação -->
+    <div class="popup-container" id="popup">
+        <div class="popup">
+            <h2 class="popup-title">Deseja confirmar seus dados?</h2>
+            <p class="popup-text">Após confirmar, seus dados serão cadastrados no nosso banco de dados.</p>
+            <div class="popup-buttons">
+                <button class="popup-button confirmar" id="confirmar">
+                    <img src="images/confirm-icon.png" alt="Ícone de confirmar">
+                    CONFIRMAR
+                </button>
+                <button class="popup-button voltar" id="voltar">
+                    <img src="images/back-icon.png" alt="Ícone de voltar">
+                    Voltar
+                </button>
+            </div>
+        </div>
+    </div>
 
-      <div class="form-content">
-        <label for="password-confirmation">Confirmação de senha</label>
-        <input
-          type="password"
-          id="password-confirmation"
-          placeholder="Digite sua senha novamente..."
-        />
-        <a>Aqui vai a mensagem de erro....</a>
-      </div>
+    <script>
+        document.getElementById('cadastrar').addEventListener('click', function() {
+            var vaga = document.getElementById('vaga').value;
+            var nome = document.getElementById('nome').value;
+            var email = document.getElementById('email').value;
+            var curso = document.getElementById('curso').value;
+            var periodo = document.getElementById('periodo').value;
 
-      <button type="submit">Cadastrar</button>
+            if (vaga && nome && email && curso && periodo) {
+                openConfirmationPopup(); // Abre a janela de confirmação apenas se todos os campos estiverem preenchidos
+            } else {
+                alert('Por favor, preencha todos os campos.');
+            }
+        });
 
-    </form>
+        function openConfirmationPopup() {
+            var popup = document.getElementById('popup');
+            popup.style.display = 'flex';
+        }
 
-  </div>
-  
+        document.getElementById('confirmar').addEventListener('click', function() {
+            console.log("Botão Confirmar clicado");
+            document.getElementById('popup').style.display = 'none';
+            document.querySelector('.tela-inicial').style.display = 'none'; // Oculta a tela inicial
+            document.getElementById('confirmation').style.display = 'flex'; // Exibe a tela de confirmação
+        });
 
-  <script src="./script.js"></script>
+        document.getElementById('voltar').addEventListener('click', function() {
+            console.log("Botão Voltar clicado");
+            document.getElementById('popup').style.display = 'none';
+        });
+    </script>
 </body>
 </html>
